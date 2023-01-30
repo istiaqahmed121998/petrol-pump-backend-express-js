@@ -50,9 +50,9 @@ const getPerDayMobils = async (query) => {
     attributes: [
       "date",
       [sequelize.fn('sum', sequelize.col('sell_quantity')), 'perday_sell_quantity'],
-      [sequelize.fn('sum', sequelize.col('invest')), 'payday_invest'],
-      [sequelize.fn('sum', sequelize.col('earn')), 'payday_earn'],
-      [sequelize.fn('sum', sequelize.col('profit')), 'payday_profit'],
+      [sequelize.fn('sum', sequelize.col('invest')), 'perday_invest'],
+      [sequelize.fn('sum', sequelize.col('earn')), 'perday_earn'],
+      [sequelize.fn('sum', sequelize.col('profit')), 'perday_profit'],
     ],
     order: [
       [column, sort],

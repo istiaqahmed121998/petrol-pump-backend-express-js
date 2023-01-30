@@ -10,28 +10,28 @@ const octaneRoute = require("./routes/octane.route");
 const mobilRoute = require("./routes/mobil.route");
 const dieselRoute = require("./routes/diesel.route");
 const expenseRoute = require("./routes/expense.route");
+const detailsRoute = require("./routes/details.route");
 const ErrorHandler = require("./middlewares/ErrorHandler.js");
-const whitelist = require("./config/index").whitelist
+const whitelist = require("./config/index").whitelist;
 module.exports = (config) => {
   const app = express();
-  app.use(helmet({ crossOriginEmbedderPolicy: false, }));
+  app.use(helmet({ crossOriginEmbedderPolicy: false }));
   app.use(compression());
   var corsOptions = {
     origin: function (origin, callback) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
-        callback(null, true)
+        callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'))
+        callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true
-  }
+    credentials: true,
+  };
   app.use(cors(corsOptions));
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   // catch 404 and forward to error handler
-
   if (app.get("env") === "development") {
     app.locals.pretty = true;
   }
@@ -45,17 +45,11 @@ module.exports = (config) => {
   app.use("/v1/api/diesel", dieselRoute);
   app.use("/v1/api/mobil", mobilRoute);
   app.use("/v1/api/expense", expenseRoute);
+  app.use("/v1/api/details", detailsRoute);
   app.use((req, res, next) => {
     next(createError(404));
   });
-
   // error handler
-  app.use(ErrorHandler)
-  // eslint-disable-next-line no-unused-vars
-
-  //   app.use("/auth", require("./routes/auth"));
-  //   app.use("/refresh", require("./routes/refresh"));
-  //   app.use("/logout", require("./routes/logout"));
-
+  app.use(ErrorHandler);
   return app;
 };
